@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f8ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  h1 {
+    color: #333;
+  }
+  #nickname-container {
+    margin-bottom: 20px;
+  }
+  input[type="text"] {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  #game {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+  }
+  .cell {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border: 2px solid #555;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  #status {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  #restartBtn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+  }
+  #restartBtn:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+
+<h1>Крестики-нолики</h1>
+
+<div id="nickname-container">
+  <label>Введите никнейм: </label>
+  <input type="text" id="nickname" placeholder="Ваш никнейм" />
+</div>
+
+<div id="game">
+  <div class="cell" data-index="0"></div>
+  <div class="cell" data-index="1"></div>
+  <div class="cell" data-index="2"></div>
+  <div class="cell" data-index="3"></div>
+  <div class="cell" data-index="4"></div>
+  <div class="cell" data-index="5"></div>
+  <div class="cell" data-index="6"></div>
+  <div class="cell" data-index="7"></div>
+  <div class="cell" data-index="8"></div>
+</div>
+
+<div id="status">Пожалуйста, введите никнейм и начинайте игру</div>
+<button id="restartBtn">Начать новую игру</button>
+
+<script>
+// Получаем все ячейки игры по классу 'cell'
+const cells = document.querySelectorAll('.cell');
+// Получаем элемент для отображения статуса игры
+const statusDiv = document.getElementById('status');
+// Получаем поле для ввода никнейма
+const nicknameInput = document.getElementById('nickname');
+// Получаем кнопку для перезапуска игры
+const restartBtn = document.getElementById('restartBtn');
+
+// Переменная, которая отслеживает текущего игрока ('X' или 'O')
+let currentPlayer = 'X';
+
+// Функция для обновления текста статуса
+function updateStatus(message) {
+  statusDiv.innerText = message;
+}
+
+// Функция для сброса игры
+function resetGame() {
+  // Отправляем POST-запрос на сервер для сброса состояния
+  fetch('/reset', {method: 'POST'})
+    .then(res => res.json()) // Получаем ответ в формате JSON
+    .then(() => {
+      // Очищаем все ячейки на поле
+      for (let i = 0; i < 9; i++) {
+        cells[i].innerText = '';
+      }
+      // Скрываем кнопку "Начать новую игру"
+      restartBtn.style.display = 'none';
+      // Обновляем статус
+      updateStatus('Пожалуйста, введите никнейм и начинайте игру');
+    });
+}
+
+// Назначаем обработчик клика для каждой ячейки
+cells.forEach(cell => {
+  cell.addEventListener('click', () => {
+    const index = parseInt(cell.dataset.index); // Получаем индекс клетки
+    const nickname = nicknameInput.value.trim(); // Получаем никнейм
+
+    // Проверка: если никнейм не введен — показываем alert
+    if (!nickname) {
+      alert('Пожалуйста, введите никнейм');
+      return;
+    }
+
+    // Отправляем запрос на сервер для выполнения хода
+    fetch('/move', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({index: index, nickname: nickname})
+    })
+    .then(res => res.json()) // Получаем ответ
+    .then(data => {
+      if (data.status === 'error') {
+        // Если сервер вернул ошибку, показываем alert
+        alert(data.message);
+      } else {
+        // Обновляем все ячейки по состоянию, полученному от сервера
+        for (let i = 0; i < 9; i++) {
+          cells[i].innerText = data.board[i];
+        }
+
+        // Проверка результата игры
+        if (data.status === 'win') {
+          // Если победа, показываем сообщение
+          updateStatus(data.message);
+          // Показываем кнопку для новой игры
+          restartBtn.style.display = 'inline';
+        } else if (data.status === 'draw') {
+          // Если ничья
+          updateStatus('Ничья!');
+          restartBtn.style.display = 'inline';
+        } else {
+          // Игра продолжается, показываем чей ход
+          updateStatus(`${nickname}, ходит ${data.next_player}`);
+        }
+      }
+    });
+  });
+});
+
+// Обработчик для кнопки "Начать новую игру"
+restartBtn.addEventListener('click', () => {
+  resetGame(); // вызываем функцию сброса
+});
+</script>
+
+</body>
+</html>

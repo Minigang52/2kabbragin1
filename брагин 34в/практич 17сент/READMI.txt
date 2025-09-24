@@ -1,0 +1,1 @@
+data = {'vasia':{'rule':'admin', 'password':'123'}}

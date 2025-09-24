@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Крестики нолики</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>Вход</h1>
+    <div>
+        <header>
+            <h1>HEllo, {{ username }}</h1>
+                <button type="submit">Exit</button>
+        </header>
+        <div>
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>логин</th>
+                        <th>время</th>
+                        <th>ip</th>
+                        <th>приглашение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user, info in users.items() %}
+                        <tr>
+                            <form action="{{ url_for('game') }}" method="POST">
+                            <td>{{ user }} <input hidden id="name" name="name"></td>
+                            <td>{{ info.login_time }}</td>
+                            <td>{{ info.ip }}</td>
+                            <td><button type="submit">Пригласить</button></td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
