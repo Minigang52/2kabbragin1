@@ -1,0 +1,14 @@
+img {
+    width: 100px;
+    height: 100px;
+    padding: 20px;
+  transform: scale(1.25);
+  animation: fadeInScale 1s forwards;
+}
+
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

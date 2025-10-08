@@ -1,0 +1,51 @@
+<html>
+<head>
+  <style>
+    .icon-container {
+      position: relative;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+    }
+    .main-img {
+      width: 300px;
+      height: 300px;
+      cursor: pointer;
+    }
+    .download-arrow {
+      position: absolute;
+      top: 200px;
+      left: 200px;
+      width: 150px;
+      height: 150px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: solid rgb(255, 0, 0);
+      transition: opacity 0.5s;
+    }
+    .download-arrow img {
+      width: 120px;
+      height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon-container">
+    <img src="img/инст.svg" class="main-img" id="instIcon" />
+    <div class="download-arrow" id="arrowBtn">
+      <img src="img/dowl.svg" />
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('instIcon').onclick = () => {
+      const arrow = document.getElementById('arrowBtn');
+      arrow.style.opacity = '0';
+      setTimeout(() => { arrow.style.display = 'none'; }, 500);
+    };
+  </script>
+</body>
+</html>
