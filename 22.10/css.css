@@ -1,0 +1,188 @@
+  body {
+    background-color: rgb(224, 224, 224);
+    margin: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    width: 100%;
+    height: 100px;
+    position: fixed;
+  }
+
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+  }
+
+.menu {
+  margin-left: 1470px; 
+  display: flex;
+  gap: 20px;
+  display: flex;
+  align-items: baseline;
+}
+
+.login-btn {
+background-color: #fff;
+color: #000000;
+border: none;
+width: 100px;
+height: 50px;
+cursor: pointer;
+border-radius: 5px;
+font-size: 20px;
+}
+
+.clock-container {
+position: absolute;
+left: 35px;
+top: 46px;
+transform: translateY(-50%);
+width: 80px;
+height: 80px;
+}
+
+
+.clock {
+width: 100%;
+height: 100%;
+border: 4px solid #fff;
+border-radius: 50%;
+position: relative;
+background: #000000;
+}
+
+
+.strelka {
+position: absolute;
+bottom: 50%;
+left: 50%;
+background-color: #fff;
+transform-origin: bottom;
+width: 4px;
+height: 22px;
+margin-left: -2px;
+margin-bottom: 0;
+top: 20%;
+animation: clock 60s linear infinite ;
+}
+
+@keyframes clock {
+from {transform: translateX(-50%) rotate(0deg);}
+to {transform: translateX(-50%) rotate(360deg);}
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 140px;
+    padding-bottom: 120px; 
+    font-size: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+main h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1100px;
+    margin-top: 25px;
+
+}
+
+.text {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.text p {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.order-btn {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 22px;
+}
+
+footer {
+    position: relative;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+}
+
+
+img{
+    height: 600px;
+    width: 300px;
+}
+
+
+
+.strelk {
+  width: 20px;
+  height: 180px;
+  background-color: black;
+}
+
+.krug {
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-radius: 50%;
+  margin-top: -2px;
+}
+
+
+.mayatnik{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  align-items: center;
+  animation:maya 3s infinite ;
+  transform-origin: top center;
+}
+
+
+@keyframes maya  {
+  0% {
+     transform: rotate(0deg); 
+    }
+  25% { 
+    transform: rotate(-15deg); 
+}
+  50% {
+     transform: rotate(0deg); }
+
+  75% { transform: rotate(15deg); 
+}
+  100% {
+     transform: rotate(0deg); 
+    }
+}
